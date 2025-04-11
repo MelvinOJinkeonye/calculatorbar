@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Calculator</title>
+
+<style>
+  body {
+    font-family: sans-serif;
+    text-align: center;
+    padding: 20px;
+  }
+
+  #display {
+    font-size: 2em;
+    width: 300px;
+    height: 50px;
+    margin-bottom: 20px;
+    text-align: left;
+    padding-right: 10px;
+  }
+
+  .button {
+    font-size: 2em;
+    width: 70px;
+    height: 70px;
+    margin: 5px;
+    cursor: pointer;
+  }
+</style>
+
+</head>
+<body>
+
+  <h1>🧮 On-Screen Calculator</h1>
+
+<input id="display" enabled />
+
+<br>
+
+<!-- Number & Operator Buttons -->
+<div>
+  <button class="button" onclick="press('7')">7</button>
+  <button class="button" onclick="press('8')">8</button>
+  <button class="button" onclick="press('9')">9</button>
+  <button class="button" onclick="press('/')">÷</button><br>
+
+  <button class="button" onclick="press('4')">4</button>
+  <button class="button" onclick="press('5')">5</button>
+  <button class="button" onclick="press('6')">6</button>
+  <button class="button" onclick="press('*')">×</button><br>
+
+  <button class="button" onclick="press('1')">1</button>
+  <button class="button" onclick="press('2')">2</button>
+  <button class="button" onclick="press('3')">3</button>
+  <button class="button" onclick="press('-')">−</button><br>
+
+  <button class="button" onclick="press('0')">0</button>
+  <button class="button" onclick="press('.')">.</button>
+  <button class="button" onclick="clearDisplay()">C</button>
+  <button class="button" onclick="press('+')">+</button><br>
+
+  <button class="button" style="width: 295px;" onclick="calculate()">=</button>
+  <button class="button" style="color: Red; background: Yellow; width: 30px;" onclick="Boom()">!</button>
+  <a style="margin-right: -130px;"> <- Don't Click </a>
+</div>
+
+<audio id="click-sound" src="click-sound.mp3"></audio>
+
+<script>
+  let display = document.getElementById("display");
+  let clickSound = document.getElementById("click-sound");
+
+  function press(value) {
+    clickSound.play(); 
+    display.value += value;  // Add the clicked button value to the display
+  }
+
+  function Boom(){
+    window.location.href = "Boom.html";  // Redirect to error page
+        return;
+  }
+
+  function clearDisplay() {
+    display.value = "";  // Clear the display when the "C" button is clicked
+  }
+
+  function calculate() {
+    try {
+      let result = eval(display.value);  // Calculate the expression on the display
+
+      // Check for division by zero
+      if (display.value.includes("/") && eval(display.value.split("/")[1]) === 0) {
+        window.location.href = "error.html";  // Redirect to error page
+        return;
+      }
+
+      display.value = result;  // Show the result on the display
+    } catch (err) {
+      display.value = "Error";  // If there's any error (like invalid input), show "Error"
+    }
+  }
+</script>
+</body>
+</html>
